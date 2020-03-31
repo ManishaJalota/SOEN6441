@@ -1,3 +1,4 @@
+
 package Main;
 
 import java.util.ArrayList;
@@ -5,16 +6,16 @@ import java.util.ArrayList;
 public privileged aspect Authentication
 {
 	private static ArrayList<String> record=new ArrayList<String>();
-	pointcut warning(Client client):call(void Server.getAllClients()) && this(client);
+	pointcut warning(Client client1):call(void Server.getAllClients()) && this(client1);
 	
-	void around(Client client):warning(client)
+	before(Client client1):warning(client1)
 
 	{
-		if(!(client.server.isClient(client) && record.contains(client.address)))
+		if(!(client1.server.isClient(client1) && record.contains(client1.address)))
 		{
-			record.add(client.address);
-			System.out.println("Warning>>>> suspicios class from "+client.address+": "+thisJoinPoint);
-			client.disconnect(client.server);
+			record.add(client1.address);
+			System.out.println("Warning>>>> Suspicious class from "+client1.address+": "+thisJoinPoint);
+			client1.disconnect(client1.server);
 		}
 	}
 }
