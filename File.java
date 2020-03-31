@@ -13,8 +13,13 @@ public class File
 		jill.connect(host);
 		jekyll.connect(host);
 		jekyll.disconnect(host);
-		hyde.connect(host);
+		
 		jack.getAllClients();
+		jill.getAllClients();
+		jill.getAllClients();
+		jill.disconnect(host);
+		hyde.connect(host);
+		host.getClients();
 		
 	}
 }
