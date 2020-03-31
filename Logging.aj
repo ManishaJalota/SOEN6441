@@ -1,3 +1,4 @@
+
 package Main;
 
 public privileged aspect Logging 
@@ -6,7 +7,13 @@ public privileged aspect Logging
 	
 	void around(Client client):connectionRequest(client)
 	{
-		System.out.println("CONNECTION REQUEST >>>>"+" "+" "+client.toString()+"requests connection to "+client.getServer());
+		System.out.println("CONNECTION REQUEST >>>>"+" "+" "+client.toString()+"requests connection to "+client.getServer()+".");
+		if(Authentication.record.contains(client.address))
+		{
+			
+		}
+		else
+			proceed(client);
 		
 		
 	}
@@ -14,14 +21,24 @@ public privileged aspect Logging
 	
 	 after(Client client):connectionEstablished(client)
 	{
-		System.out.println("Connection Established between "+client.toString()+" and "+client.getServer());
-		System.out.println("Clients logged in"+client.server.clients);
-		System.out.println();
+		
+		 if(Authentication.record.contains(client.address))
+			{
+				
+			}
+		 else
+		 {
+			 System.out.println("Connection Established between "+client.toString()+" and "+client.getServer());
+			 System.out.println("Clients logged in"+client.server.clients);
+			 System.out.println();
+		 }
 	}
 	 pointcut disconnection(Client client):call(void Server.detach(Client)) && args(client);
 	
-	 after( Client client):disconnection(client){
+	 after( Client client):disconnection(client)
+	 {
 		 System.out.println("Connection Broke between "+client.toString()+" and "+client.getServer()+".");
 		 System.out.println("Clients logged in: "+client.server.clients);
+		 System.out.println();
 	 }
 }
